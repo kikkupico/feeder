@@ -1,0 +1,104 @@
+<html>
+	<head>
+		<link
+			href="https://fonts.googleapis.com/css?family=Raleway&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+		/>
+	</head>
+	<style>
+		body {
+			background-color: #000			
+		}
+		.round {
+			height: 100px;
+			width: 100px;
+			border-radius: 50%;	
+		}
+
+		button.button-primary, button.button-primary:focus {
+			background-color: #222;
+			border: none;
+		}
+
+		button.button-primary:hover {
+			background-color: #222;			
+		}
+
+		button.button-primary:active {
+			background-color: #ccc;
+			color: #000;
+		}
+
+		button.button-primary:disabled {			
+			color:#222;
+			background-color: #111;
+		}
+
+	</style>
+	<body>
+		<div class="container">
+			<div class="row" style="color:#fff">
+				<div class="one column">
+					<i style="font-size:4em" class="fas fa-paw"></i>
+				</div>
+				<div class="eleven columns">
+					<h1>PetBubble</h1>
+				</div>
+				<br /><br /><br /><br /><br /><br /><br /><br /><br />
+			</div>
+			<div class="row">
+				<div class="eleven columns">
+					<img id="video" width="100%" src="" />
+				</div>
+				<div
+					class="one column"
+					style="text-align: center; padding-top: 3em"
+				>
+					<button class="button-primary round">
+						<i style="font-size:4em" class="fas fa-microphone"></i>
+					</button>
+					<br /><br /><br />
+					<button id="feed-button" class="button-primary round">
+						<i style="font-size:4em" class="fas fa-carrot"></i>
+					</button>
+					<br /><br /><br />
+					<button class="button-primary round">
+						<i style="font-size:4em" class="fas fa-ellipsis-v"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		function playVideo() {
+			let img = document.getElementById("video")
+			img.src =
+				"/html/cam_pic.php?time=" +
+				new Date().getTime() +
+				"&pDelay=40000";
+
+			img.onload = playVideo
+			img.onerror = function(){setTimeout(()=>playVideo(), 2000)}
+		}
+
+		window.onload = function(){playVideo()}
+
+		function feed_now() {
+			document.getElementById('feed-button').disabled = true;
+			fetch('/feeder/feed_now')
+			.then(res=>res.text())
+			.then(t=>document.getElementById('feed-button').disabled = false)
+		}
+
+		document.getElementById('feed-button').onclick = feed_now
+
+	</script>
+</html>
